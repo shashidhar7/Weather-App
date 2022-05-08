@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { debounce, debounceTime } from 'rxjs';
-// modules
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { FormControl } from "@angular/forms";
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 // services
 import { WeatherService } from '../services/weather.service';
-
-
+import moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-weather-information',
@@ -17,51 +12,87 @@ import { WeatherService } from '../services/weather.service';
 })
 export class WeatherInformationComponent implements OnInit {
 
-
-  cities = ["London", "Paris", "Moscow", "New York", "Karachi", "Sydney"];
-
-  // @ts-ignore
-  cityControl: FormControl;
-
-  locationName: any;
+  // public cityModelChanged: Subject<string> = new Subject<string>();
+  // private cityModelChangeSubscription: any
+  globalSearchTerm$ = new Subject<string>();
   weatherInfo: any;
-  cityName = '';
-  constructor(private router: Router,
-    private weatherSvc: WeatherService,
-    private fb: FormBuilder) {
-    this.cityControl = new FormControl("");
-    this.cityControl.valueChanges
-      .subscribe((value: any) => {
-        console.log("val=", value);
-        this.locationName = value;
-        this.router.navigate([value]);
-      });
+  cityName: any;
+  date: any;
+  constructor(private weatherSvc: WeatherService,
+    private toastr: ToastrService) {
+    this.weatherInfo = {
+      name: '',
+      weather: '',
+      main: '',
+      description: '',
+      feels_like: '',
+      temp: ''
+    };
+    this.globalSerachServiceBind();
 
   }
 
   ngOnInit() {
-
+    // this.cityModelChangeSubscription = this.cityModelChanged
+    //   .pipe(
+    //     debounceTime(500),
+    //     distinctUntilChanged()
+    //   )
+    //   .subscribe(cityName => {
+    //     this.weatherSvc.getWeatherForCity(cityName)
+    //       .subscribe((response: any) => {
+    //         this.weatherInfo = response;
+    //         console.log(this.weatherInfo);
+    //         this.date = moment(new Date()).format("DD MMMM yyyy");
+    //       }, error => {
+    //         this.toastr.error(error.error.message);
+    //       })
+    //   });
   }
 
-  citySelected(value: any) {
-    this.getWeatherInfoBy(value);
-  }
+  // getWeatherInfoBy(cityName: any) {
+  //   this.cityModelChanged.next(cityName);
+  // }
 
-  getWeatherInfoBy(locName: any) {
-    debounceTime(400);
-    this.weatherSvc.getWeatherForCity(locName)
-      .subscribe((response: any) => {
-        this.weatherInfo = response;
-        console.log("res==", response)
-      })
-  }
+  // call destroy the city model subscription
+  // ngOnDestroy() {
+  //   this.cityModelChangeSubscription.unsubscripe();
+  // }
 
-  ngOnDestroy() {
+  globalSerachServiceBind() {
+    this.weatherSvc.globalSearch(this.globalSearchTerm$)
+      .subscribe((results: any) => {
+        this.weatherInfo = results;
+        this.weatherInfo.name = results.name;
+        this.weatherInfo.weather = results.weather[0].main;
+        this.weatherInfo.description = results.weather[0].description;
+        this.weatherInfo.feels_like = results.main.feels_like;
+        this.weatherInfo.temp = results.main.temp;
+
+        console.log(this.weatherInfo);
+        this.date = moment(new Date()).format("DD MMMM yyyy");
+      }, (err: any) => {
+        this.clearInput();
+        console.log("error blc")
+      });
   }
 
   clearInput() {
-    this.weatherInfo = '';
+    this.weatherInfo = {
+      name: '',
+      weather: '',
+      main: '',
+      description: '',
+      feels_like: '',
+      temp: ''
+    };
     this.cityName = '';
+  }
+
+  searchItem() {
+    if (this.cityName.length > 0) {
+      this.globalSearchTerm$.next(this.cityName);
+    }
   }
 
 }

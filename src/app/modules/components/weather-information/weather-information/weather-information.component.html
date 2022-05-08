@@ -1,41 +1,32 @@
 <mat-toolbar color="primary">
   Weather Information
 </mat-toolbar>
-<br>
-<div class="content" style="background-color:lightgray;color: black;">
-  <mat-form-field appearance="fill">
-    <mat-label>City Name</mat-label>
-    <input matInput placeholder="Enter city name" [(ngModel)]="cityName" (ngModelChange)="citySelected(cityName)">
+<div class="content">
+  <div class="child">
+    <mat-form-field appearance="fill">
+      <mat-label>City Name</mat-label>
+      <input matInput placeholder="Enter city name" [(ngModel)]="cityName" (ngModelChange)="searchItem()"
+        autocomplete="off">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="clearInput()">Clear</button>
 
-    <!--  <mat-label>Select city</mat-label>
-   <mat-select [formControl]="cityControl" (selectionChange)="citySelected($event.value)">
-      <mat-option *ngFor="let city of cities" [value]="city">
-        {{city}}
-      </mat-option>
-    </mat-select> -->
-
-  </mat-form-field>
-  <button mat-raised-button (click)="clearInput()">Clear</button>
-  <br />
-
-  <mat-card class="mat-elevation-z5" *ngIf="weatherInfo">
-    <mat-card-header>
-      <mat-card-title>{{weatherInfo.name}}'s weather</mat-card-title>
-      <!-- <mat-card-subtitle>Today: {{today | date }}</mat-card-subtitle> -->
-    </mat-card-header>
-    <!-- Below syntax is image render -->
-    <!-- <img md-card-image [src]="cardImagePath"> -->
-    <mat-card-content>
-      <div class="flex-row">
-        <div class="temp">
-          <span class="big-text">{{weatherInfo.main.temp | number:'0.0-0'}} C</span>
-          <span>Feels like </span>
-          <span>{{weatherInfo.main.feels_like | number: '0.0-0'}} C</span>
+    <mat-card class="mat-elevation-z5" *ngIf="weatherInfo.name">
+      <mat-card-header>
+        <mat-card-title>{{weatherInfo.name}}'s weather</mat-card-title>
+        <span class="big-text">Today: {{date}}</span>
+      </mat-card-header>
+      <!-- Below syntax is image render -->
+      <!-- <img md-card-image [src]="cardImagePath"> -->
+      <mat-card-content>
+        <div class="flex-row">
+          <div class="temp">
+            <span class="big-text">{{weatherInfo.temp | number:'0.0-0'}} C</span>
+            <span>Feels like </span>
+            <span>{{weatherInfo.feels_like | number: '0.0-0'}} C</span>
+            <span style="margin-left: 60px;">{{weatherInfo.description | titlecase}}</span>
+          </div>
         </div>
-        <div class="outlook">
-          <span>{{weatherInfo.weather[0].description | titlecase}}</span>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

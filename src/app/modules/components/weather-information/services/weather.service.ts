@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
+import { debounceTime, distinctUntilChanged, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,19 @@ export class WeatherService {
 
   constructor(private http: HttpClient) { }
 
-  getWeatherForCity(city: string): Observable<any> {
-    const path = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=695ed9f29c4599b7544d0db5c211d499`;
+
+  globalSearch(terms: Observable<any>) {
+    console.log("weather service==ter==", terms)
+    return terms.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+      , switchMap(term => this.getWeatherForCity(term)));
+  }
+
+  // get the city weather information
+  getWeatherForCity(city: string) {
+    console.log("getWeatherForCity=", city)
+    const path = `${environment.weath_info}${city}&units=metric&APPID=${environment.APPId}`;
     return this.http.get(path);
   }
 }
