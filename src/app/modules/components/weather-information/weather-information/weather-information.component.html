@@ -5,7 +5,7 @@
   <div class="child">
     <mat-form-field appearance="fill">
       <mat-label>City Name</mat-label>
-      <input matInput placeholder="Enter city name" [(ngModel)]="cityName" (ngModelChange)="searchItem()"
+      <input matInput placeholder="Enter city name" [(ngModel)]="cityName" (keyup)="searchItem($event)"
         autocomplete="off">
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="clearInput()">Clear</button>

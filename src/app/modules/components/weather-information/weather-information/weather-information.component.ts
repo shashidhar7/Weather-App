@@ -33,31 +33,8 @@ export class WeatherInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.cityModelChangeSubscription = this.cityModelChanged
-    //   .pipe(
-    //     debounceTime(500),
-    //     distinctUntilChanged()
-    //   )
-    //   .subscribe(cityName => {
-    //     this.weatherSvc.getWeatherForCity(cityName)
-    //       .subscribe((response: any) => {
-    //         this.weatherInfo = response;
-    //         console.log(this.weatherInfo);
-    //         this.date = moment(new Date()).format("DD MMMM yyyy");
-    //       }, error => {
-    //         this.toastr.error(error.error.message);
-    //       })
-    //   });
+   
   }
-
-  // getWeatherInfoBy(cityName: any) {
-  //   this.cityModelChanged.next(cityName);
-  // }
-
-  // call destroy the city model subscription
-  // ngOnDestroy() {
-  //   this.cityModelChangeSubscription.unsubscripe();
-  // }
 
   globalSerachServiceBind() {
     this.weatherSvc.globalSearch(this.globalSearchTerm$)
@@ -68,16 +45,25 @@ export class WeatherInformationComponent implements OnInit {
         this.weatherInfo.description = results.weather[0].description;
         this.weatherInfo.feels_like = results.main.feels_like;
         this.weatherInfo.temp = results.main.temp;
-
-        console.log(this.weatherInfo);
+        //console.log(this.weatherInfo);
         this.date = moment(new Date()).format("DD MMMM yyyy");
       }, (err: any) => {
         this.clearInput();
-        console.log("error blc")
+        this.toastr.error(err.error.message);
       });
   }
 
+  // search 
+  searchItem(ev: any) {
+    if (ev.target.value.length > 0) {
+      console.log("goto if");
+      this.globalSearchTerm$.next(this.cityName);
+    }
+  }
+
+  // clear the object
   clearInput() {
+    console.log("goto clear input fun");
     this.weatherInfo = {
       name: '',
       weather: '',
@@ -89,10 +75,6 @@ export class WeatherInformationComponent implements OnInit {
     this.cityName = '';
   }
 
-  searchItem() {
-    if (this.cityName.length > 0) {
-      this.globalSearchTerm$.next(this.cityName);
-    }
-  }
+  
 
 }
