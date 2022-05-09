@@ -12,17 +12,15 @@ export class WeatherService {
 
 
   globalSearch(terms: Observable<any>) {
-    console.log("weather service==ter==", terms)
     return terms.pipe(
-      debounceTime(500),
+      debounceTime(400),
       distinctUntilChanged()
       , switchMap(term => this.getWeatherForCity(term)));
   }
 
   // get the city weather information
   getWeatherForCity(city: string) {
-    console.log("getWeatherForCity=", city)
-    const path = `${environment.weath_info}${city}&units=metric&APPID=${environment.APPId}`;
+    const path = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=695ed9f29c4599b7544d0db5c211d499`;
     return this.http.get(path);
   }
 }

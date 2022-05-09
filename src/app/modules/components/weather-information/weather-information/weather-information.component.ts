@@ -12,8 +12,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class WeatherInformationComponent implements OnInit {
 
-  // public cityModelChanged: Subject<string> = new Subject<string>();
-  // private cityModelChangeSubscription: any
   globalSearchTerm$ = new Subject<string>();
   weatherInfo: any;
   cityName: any;
@@ -63,7 +61,6 @@ export class WeatherInformationComponent implements OnInit {
 
   // clear the object
   clearInput() {
-    console.log("goto clear input fun");
     this.weatherInfo = {
       name: '',
       weather: '',

@@ -27,9 +27,16 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 ## Weather App Work flow
-Enter the city name(like: pune, hyderabad)
-Showing the weather details based on city name
-Hit the weather api that is below one here q={{cityname}}
+Steps:
+
+1)Extract the zip file, Open in any development environment(like: Visual Studio Code)
+2)npm install
+3)It will open by default port 4200
+4)Enter the city name(like: pune, hyderabad)
+5)Showing the weather details based on city name
+6)Hitting the weather api that is below one here q={{cityname}}
 https://api.openweathermap.org/data/2.5/weather?q=hyderabad&units=metric&APPID=695ed9f29c4599b7544d0db5c211d499
-If you have check another city details just click the clear button and do enter another city name
-Incase enter wrong city name showing the error (taostr) message
+7)If you have check another city details just click the clear button and do enter another city name
+8)Incase enter wrong city name showing the error (taostr) message
+
+Note: Testcases are not written for this app
