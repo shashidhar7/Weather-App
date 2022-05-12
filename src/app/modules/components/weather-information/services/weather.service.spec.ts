@@ -4,7 +4,7 @@ import { WeatherService } from './weather.service';
 import { environment } from '../../../../../environments/environment';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-fdescribe('WeatherService', () => {
+describe('WeatherService', () => {
   let service: WeatherService;
   let httpMock: HttpTestingController;
 
@@ -14,8 +14,8 @@ fdescribe('WeatherService', () => {
       providers: [WeatherService]
     });
 
-    service = TestBed.get(WeatherService);
-    httpMock = TestBed.get(HttpTestingController);
+    service = TestBed.inject(WeatherService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should have a service instance', () => {
@@ -27,7 +27,6 @@ fdescribe('WeatherService', () => {
     const mockData = {
       city: 'Hyderabad',
     }
-    
     service.getWeatherForCity('Hyderabad')
       .subscribe((response: any) => {
         console.log("response==", response);
