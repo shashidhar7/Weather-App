@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { WeatherInformationComponent } from './weather-information.component';
-import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 // services
 import { ToastrModule } from 'ngx-toastr';
@@ -14,7 +17,15 @@ describe('WeatherInformationComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [WeatherInformationComponent],
-      imports: [HttpClientTestingModule, ToastrModule.forRoot()],
+      imports: [
+        BrowserAnimationsModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatToolbarModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot()
+      ],
       providers: [WeatherService]
     })
       .compileComponents();
