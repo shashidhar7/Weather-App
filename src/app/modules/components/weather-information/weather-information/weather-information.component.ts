@@ -18,60 +18,41 @@ export class WeatherInformationComponent implements OnInit {
   date: any;
   constructor(private weatherSvc: WeatherService,
     private toastr: ToastrService) {
-    this.weatherInfo = {
-      name: '',
-      weather: '',
-      main: '',
-      description: '',
-      feels_like: '',
-      temp: ''
-    };
-    this.globalSerachServiceBind();
-
+    this.intializeObj();
   }
 
   ngOnInit() {
-   
+    this.globalSerachServiceBind();
+  }
+
+  intializeObj() {
+    this.weatherInfo = ''
   }
 
   globalSerachServiceBind() {
     this.weatherSvc.globalSearch(this.globalSearchTerm$)
       .subscribe((results: any) => {
         this.weatherInfo = results;
-        this.weatherInfo.name = results.name;
-        this.weatherInfo.weather = results.weather[0].main;
-        this.weatherInfo.description = results.weather[0].description;
-        this.weatherInfo.feels_like = results.main.feels_like;
-        this.weatherInfo.temp = results.main.temp;
-        //console.log(this.weatherInfo);
+        this.cityName = this.weatherInfo.name;
         this.date = moment(new Date()).format("DD MMMM yyyy");
       }, (err: any) => {
         this.clearInput();
+        this.globalSerachServiceBind();
         this.toastr.error(err.error.message);
       });
   }
 
   // search 
   searchItem(ev: any) {
+    this.intializeObj();
     if (ev.target.value.length > 0) {
-      console.log("goto if");
       this.globalSearchTerm$.next(this.cityName);
     }
   }
 
   // clear the object
   clearInput() {
-    this.weatherInfo = {
-      name: '',
-      weather: '',
-      main: '',
-      description: '',
-      feels_like: '',
-      temp: ''
-    };
+    this.intializeObj();
     this.cityName = '';
   }
-
-  
-
 }

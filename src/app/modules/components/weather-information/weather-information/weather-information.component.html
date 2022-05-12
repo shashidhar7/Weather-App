@@ -10,21 +10,23 @@
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="clearInput()">Clear</button>
 
-    <mat-card class="mat-elevation-z5" *ngIf="weatherInfo.name">
-      <mat-card-header>
-        <mat-card-title>{{weatherInfo.name}}'s weather</mat-card-title>
-        <span class="big-text">Today: {{date}}</span>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="flex-row">
-          <div class="temp">
-            <span class="big-text">{{weatherInfo.temp | number:'0.0-0'}} C</span>
-            <span>Feels like </span>
-            <span>{{weatherInfo.feels_like | number: '0.0-0'}} C</span>
-            <span style="margin-left: 60px;">{{weatherInfo.description | titlecase}}</span>
+    <div class="mat-elevation-z5" *ngFor="let info of weatherInfo.weather">
+      <mat-card class="mat-elevation-z5">
+        <mat-card-header>
+          <mat-card-title>{{cityName}}'s weather</mat-card-title>
+          <span class="big-text">Today: {{date}}</span>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="flex-row">
+            <div class="temp">
+              <span class="big-text">{{info.temp | number:'0.0-0'}} C</span>
+              <span>Feels like </span>
+              <span>{{info.feels_like | number: '0.0-0'}} C</span>
+              <span style="margin-left: 60px;">{{info.description | titlecase}}</span>
+            </div>
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
