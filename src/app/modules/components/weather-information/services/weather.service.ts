@@ -19,8 +19,7 @@ export class WeatherService {
 
   // get the city weather information
   getWeatherForCity(city: string) {
-    //const path = `${environment.weath_info}${city}&units=metric&APPID=695ed9f29c4599b7544d0db5c211d499`;
-    const path = `https://api.openweathermap.org/data/2.5/weather?q='${city}&units=metric&APPID=695ed9f29c4599b7544d0db5c211d499`;
+    const path = `${environment.weath_info}${city}&units=metric&APPID=695ed9f29c4599b7544d0db5c211d499`;
     return this.http.get(path);
   }
 }

@@ -9,8 +9,8 @@
         autocomplete="off">
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="clearInput()">Clear</button>
-
-    <div class="mat-elevation-z5" *ngFor="let info of weatherInfo.weather">
+    <div class="mat-elevation-z5" *ngIf="weatherInfo">
+      
       <mat-card class="mat-elevation-z5">
         <mat-card-header>
           <mat-card-title>{{cityName}}'s weather</mat-card-title>
@@ -19,10 +19,10 @@
         <mat-card-content>
           <div class="flex-row">
             <div class="temp">
-              <span class="big-text">{{info.temp | number:'0.0-0'}} C</span>
+              <span class="big-text">{{weatherInfo.main.temp | number:'0.0-0'}} C</span>
               <span>Feels like </span>
-              <span>{{info.feels_like | number: '0.0-0'}} C</span>
-              <span style="margin-left: 60px;">{{info.description | titlecase}}</span>
+              <span>{{weatherInfo.main.feels_like | number: '0.0-0'}} C</span>
+              <span style="margin-left: 60px;">{{weatherInfo.weather[0].description | titlecase}}</span>
             </div>
           </div>
         </mat-card-content>
